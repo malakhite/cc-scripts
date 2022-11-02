@@ -15,4 +15,35 @@ function grow(slot)
 	modem.callRemote(drawers, "pullItems", turtleName, 1)
 end
 
-grow(1)
+function getCounts()
+	local list = modem.callRemote(inter, "list")
+	local slots = {}
+	for listSlot, listItem in pairs(list) do
+		local item = modem.callRemote(inter, "getItemDetail", listSlot)
+			if item.tags["botania:petals"] then
+				if item.count < 100 then
+					slots.append(slot)
+				end
+			end
+		end
+	end
+	return slots
+end
+
+function topUp(slot)
+	while (modem.callRemote(inter, "getItemDetail", slot)).count < 125 do
+		grow(slot)
+	end
+end
+
+
+function main()
+	while true do
+		local lowStock = getCounts()
+		for slot in lowStock do
+			topUp(slot)
+		end
+		sleep 10
+	end
+end
+
