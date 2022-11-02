@@ -3,7 +3,7 @@ local turtleName = modem.getNameLocal()
 print("turtle: ", turtleName)
 
 local names = modem.getNamesRemote()
-print("network names: " textutils.serialize(names))
+print("network names: ", textutils.serialize(names))
 
 -- function grow(slot)
 -- 	inter.pushItems(turtleName, 1, 1, 1)
