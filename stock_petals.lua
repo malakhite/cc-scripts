@@ -14,4 +14,4 @@ function grow(slot)
 	turtle.craft()
 end
 
-grow(1)
+inter.list()
