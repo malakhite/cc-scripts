@@ -11,10 +11,8 @@ function grow(slot)
 	turtle.select(1)
 	turtle.place()
 	turtle.dig("right")
-	local success, reason = turtle.craft()
-	if not success then
-		print("Unable to craft: ", reason)
-	end
+	turtle.craft()
+	modem.callRemote(drawers, "pullItems", turtleName, 1)
 end
 
 grow(1)
