@@ -6,6 +6,8 @@ local drawers = "functionalstorage:storage_controller_1"
 function grow(slot)
 	modem.callRemote(inter, "pushItems", turtleName, 1, 1, 1)
 	modem.callRemote(drawers, "pushItems", turtleName, slot, 1, 2)
+	local item = turtle.getItemDetail(2)
+	print(string.format("Growing %s", item.name))
 	turtle.select(2)
 	turtle.place()
 	turtle.select(1)
@@ -20,10 +22,10 @@ function getCounts()
 	local slots = {}
 	for listSlot, listItem in pairs(list) do
 		local item = modem.callRemote(inter, "getItemDetail", listSlot)
-			if item.tags["botania:petals"] then
-				if item.count < 100 then
-					slots.append(slot)
-				end
+		if item.tags["botania:petals"] then
+			if item.count < 100 then
+				print(string.format("%s has count %d. Adding to restock queue.", item.name, item.count))
+				slots.append(slot)
 			end
 		end
 	end
@@ -40,7 +42,7 @@ end
 function main()
 	while true do
 		local lowStock = getCounts()
-		for slot in lowStock do
+		for i, slot in ipairs(lowStock) do
 			topUp(slot)
 		end
 		sleep 10
