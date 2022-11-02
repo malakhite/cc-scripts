@@ -22,6 +22,7 @@ function getCounts()
 	local slots = {}
 	for listSlot, listItem in pairs(list) do
 		local item = modem.callRemote(inter, "getItemDetail", listSlot)
+		print(textutils.serialise(item.tags))
 		if item.tags["botania:petals"] then
 			if item.count < 100 then
 				print(string.format("%s has count %d. Adding to restock queue.", item.name, item.count))
@@ -42,10 +43,12 @@ end
 function main()
 	while true do
 		local lowStock = getCounts()
+		print(string.format("Got the following low stock slots: %s", textutils.serialise(lowStock)))
 		for i, slot in ipairs(lowStock) do
 			topUp(slot)
 		end
-		sleep 10
+		sleep(10)
 	end
 end
 
+main()
